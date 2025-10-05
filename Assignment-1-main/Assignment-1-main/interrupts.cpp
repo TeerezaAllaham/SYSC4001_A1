@@ -20,6 +20,9 @@ int main(int argc, char** argv) {
 
     /******************ADD YOUR VARIABLES HERE*************************/
 
+    int currentTime = 0;
+    int saveTime = 10;
+    int isrTime = 40;
 
 
     /******************************************************************/
@@ -30,6 +33,10 @@ int main(int argc, char** argv) {
 
         /******************ADD YOUR SIMULATION CODE HERE*************************/
 
+        if (activity == "CPU") {
+            execution += std::to_string(currentTime) + ", " + std::to_string(duration_intr) + ", CPU burst.\n";
+            currentTime += duration_intr;
+        } else 
 
 
         /************************************************************************/
