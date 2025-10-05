@@ -2,7 +2,7 @@
  *
  * @file interrupts.cpp
  * @author Sasisekhar Govind
- *
+ * students : Sahil & Teereza
  */
 
 #include<interrupts.hpp>
