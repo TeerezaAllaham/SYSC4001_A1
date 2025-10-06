@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
         /******************ADD YOUR SIMULATION CODE HERE*************************/
 
         if (activity == "CPU") { // if the acitvity is CPU
-            execution += std::to_string(currentTime) + ", " + std::to_string(duration_intr) + ", CPU burst.\n";
+            execution += std::to_string(currentTime) + ", " + std::to_string(duration_intr) + ", CPU burst.\n"; // add to CPU burst.
             currentTime += duration_intr;
         } 
         else { // if the activity is not CPU, Ex: SYSCALL or END_IO
@@ -46,8 +46,8 @@ int main(int argc, char** argv) {
             execution += std::to_string(currentTime) + ", " + std::to_string(isrTime) + ", call device driver.\n"; // add the driver call
             currentTime += isrTime;
 
-            int deviceDelay = delays.at(deviceNum);
-            currentTime += (deviceDelay - isrTime);
+            int deviceDelay = delays.at(deviceNum); // get delay for this device
+            currentTime += (deviceDelay - isrTime); // (total time the device needs to finish its work - part of that delay spent handling the device in the ISR)
             execution += std::to_string(currentTime) + ", 1, IRET\n"; 
             currentTime += 1;
         }
