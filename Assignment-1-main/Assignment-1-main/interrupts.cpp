@@ -20,9 +20,9 @@ int main(int argc, char** argv) {
 
     /******************ADD YOUR VARIABLES HERE*************************/
 
-    int currentTime = 0;
-    int saveTime = 10;
-    int isrTime = 40;
+    int currentTime = 0; // Tracks the current time starting from 0 in ms
+    int saveTime = 10; // Time to save context
+    int isrTime = 40; // Time taken for one ISR body execution
 
 
     /******************************************************************/
@@ -33,10 +33,23 @@ int main(int argc, char** argv) {
 
         /******************ADD YOUR SIMULATION CODE HERE*************************/
 
-        if (activity == "CPU") {
+        if (activity == "CPU") { // if the acitvity is CPU, Ex: SYSCALL or END_IO
             execution += std::to_string(currentTime) + ", " + std::to_string(duration_intr) + ", CPU burst.\n";
             currentTime += duration_intr;
-        } else 
+        } 
+        else { // if the activity is not CPU
+            auto [boilerplate, boilerplate_end_time] = intr_boilerplate(currentTime, deviceNum, saveTime, vectors);
+            execution += boilerplate;
+
+            currentTime = boilerplate_end_time;
+            execution += std::to_string(currentTime) + ", " + std::to_string(isrTime) + ", call device driver.\n";
+            currentTime += isrTime;
+
+            int deviceDelay = delays.at(deviceNum);
+            currentTime += (deviceDelay - isrTime);
+            execution += std::to_string(currentTime) + ", 1, IRET. \n"; //
+            currentTime += 1;
+        }
 
 
         /************************************************************************/
