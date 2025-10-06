@@ -29,25 +29,26 @@ int main(int argc, char** argv) {
 
     //parse each line of the input trace file
     while(std::getline(input_file, trace)) {
-        auto [activity, duration_intr] = parse_trace(trace);
+        auto [activity, duration_intr] = parse_trace(trace); 
 
         /******************ADD YOUR SIMULATION CODE HERE*************************/
 
-        if (activity == "CPU") { // if the acitvity is CPU, Ex: SYSCALL or END_IO
+        if (activity == "CPU") { // if the acitvity is CPU
             execution += std::to_string(currentTime) + ", " + std::to_string(duration_intr) + ", CPU burst.\n";
             currentTime += duration_intr;
         } 
-        else { // if the activity is not CPU
-            auto [boilerplate, boilerplate_end_time] = intr_boilerplate(currentTime, deviceNum, saveTime, vectors);
+        else { // if the activity is not CPU, Ex: SYSCALL or END_IO
+            int deviceNum = duration_intr;
+            auto [boilerplate, boilerplate_end_time] = intr_boilerplate(currentTime, deviceNum, saveTime, vectors); // this step switches to kernel mode by calling boilerplate 
             execution += boilerplate;
 
-            currentTime = boilerplate_end_time;
-            execution += std::to_string(currentTime) + ", " + std::to_string(isrTime) + ", call device driver.\n";
+            currentTime = boilerplate_end_time; // setting time after boilerplate
+            execution += std::to_string(currentTime) + ", " + std::to_string(isrTime) + ", call device driver.\n"; // add the driver call
             currentTime += isrTime;
 
             int deviceDelay = delays.at(deviceNum);
             currentTime += (deviceDelay - isrTime);
-            execution += std::to_string(currentTime) + ", 1, IRET. \n"; //
+            execution += std::to_string(currentTime) + ", 1, IRET\n"; 
             currentTime += 1;
         }
 
